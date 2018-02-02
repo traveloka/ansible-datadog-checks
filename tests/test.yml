@@ -4,6 +4,8 @@
   roles:
     - name: ansible-datadog-checks
       datadog_agent_checks_config_dir: "{{ lookup('env','TRAVIS_BUILD_DIR') }}"
+      datadog_user: "{{ lookup('env','USER') }}"
+      datadog_group: root
       datadog_checks:
         app_jmx:
           init_config: null
