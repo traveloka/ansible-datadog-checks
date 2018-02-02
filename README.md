@@ -12,6 +12,7 @@ awslogs is installed
 - datadog_agent_checks_config_dir: datadog checks config directory.
   This default to `/etc/dd-agent/conf.d`
 - datadog_checks: DataDog agent checks in YAML configuration that will be dropped into `{{ datadog_agent_checks_config_dir }}`
+- datadog_user, datadog_group: The user and group that should own the checks configuration files
 
 ## Dependencies
 
