@@ -1,0 +1,15 @@
+---
+- name: Create {{ item }} DataDog check configuration file
+  template:
+    src: checks.yml.j2
+    dest: "{{ datadog_agent_checks_config_dir }}/{{ item }}.yml"
+    owner: "{{ datadog_user }}"
+    group: "{{ datadog_group }}"
+  with_items: "{{ datadog_checks | list }}"
+
+- name: Display DataDog checks configurations
+  debug:
+    msg: "{{ lookup('file',item).split('\n') }}"
+    verbosity: 2
+  with_fileglob:
+    - "{{ datadog_agent_checks_config_dir }}/*.yml"

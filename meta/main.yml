@@ -1,0 +1,29 @@
+---
+galaxy_info:
+  author: 'Traveloka'
+  description: Configure DataDog checks
+  license: MIT
+  min_ansible_version: 2.0
+  platforms:
+    - name: Ubuntu
+      versions:
+        - lucid
+        - maverick
+        - natty
+        - oneiric
+        - precise
+        - quantal
+        - raring
+        - saucy
+        - trusty
+        - utopic
+        - vivid
+        - xenial
+    - name: Debian
+      versions:
+        - squeeze
+        - wheezy
+        - jessie
+  categories:
+    - monitoring
+dependencies: []

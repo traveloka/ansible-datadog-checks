@@ -1,0 +1,1 @@
+datadog_agent_checks_config_dir: "/etc/dd-agent/conf.d"

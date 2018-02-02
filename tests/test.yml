@@ -1,0 +1,27 @@
+---
+- hosts: all
+  become: True
+  roles:
+    - name: ansible-datadog-checks
+      datadog_agent_checks_config_dir: "{{ lookup('env','TRAVIS_BUILD_DIR') }}"
+      datadog_checks:
+        app_jmx:
+          init_config: null
+          instances:
+          -   conf:
+              -   include:
+                      attribute:
+                          Usage.max:
+                              metric_type: gauge
+                          Usage.used:
+                              metric_type: gauge
+                      domain: java.lang
+                      type: MemoryPool
+              -   include:
+                      attribute:
+                          CollectionCount:
+                              metric_type: gauge
+                      domain: java.lang
+                      type: GarbageCollector
+              jmx_url: service:jmx:rmi:///jndi/rmi://127.0.0.1:14928/jmxrmi
+              name: jmx-localhost-14928
