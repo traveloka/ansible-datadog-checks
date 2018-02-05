@@ -2,7 +2,7 @@
 - name: Create {{ item }} DataDog check configuration file
   template:
     src: checks.yml.j2
-    dest: "{{ datadog_agent_checks_config_dir }}/{{ item }}.yml"
+    dest: "{{ datadog_agent_checks_config_dir }}/{{ item }}.yaml"
     owner: "{{ datadog_user }}"
     group: "{{ datadog_group }}"
   with_items: "{{ datadog_checks | list }}"
