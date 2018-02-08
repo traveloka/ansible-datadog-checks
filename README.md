@@ -27,7 +27,7 @@ DataDog Agent is installed
   roles:
     - name: ansible-datadog-checks
       datadog_checks:
-        app_jmx:
+        jmx:
           init_config: null
           instances:
           -   conf:

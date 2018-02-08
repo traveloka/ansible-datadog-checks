@@ -7,7 +7,7 @@
       datadog_user: "{{ lookup('env','USER') }}"
       datadog_group: root
       datadog_checks:
-        app_jmx:
+        jmx:
           init_config: null
           instances:
           -   conf:
