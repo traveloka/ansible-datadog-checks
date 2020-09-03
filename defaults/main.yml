@@ -1,3 +1,4 @@
-datadog_agent_checks_config_dir: "/etc/dd-agent/conf.d"
+datadog_agent_legacy_checks_config_dir: "/etc/dd-agent/conf.d"
+datadog_config_path: "/etc/datadog-agent"
 datadog_user: dd-agent
 datadog_group: dd-agent

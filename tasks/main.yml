@@ -1,15 +1,42 @@
 ---
-- name: "Create {{ item }} DataDog check configuration file"
-  template:
-    src: checks.yml.j2
-    dest: "{{ datadog_agent_checks_config_dir }}/{{ item }}.yaml"
-    owner: "{{ datadog_user }}"
-    group: "{{ datadog_group }}"
-  with_items: "{{ datadog_checks | list }}"
+- block:
+    - block:  
+        - name: check current running datadog-agent version
+          shell: "dpkg -s datadog-agent | grep Version -m 1 | awk '{print $2}'"
+          register: installed_dd_agent_version
 
-- name: "Display DataDog checks configurations"
-  debug:
-    msg: "{{ lookup('file',item).split('\n') }}"
-    verbosity: 2
-  with_fileglob:
-    - "{{ datadog_agent_checks_config_dir }}/*.yaml"
+    - block: # when datadog-agent version < 6
+
+        - name: "Create {{ item }} DataDog v5 check configuration file"
+          template:
+            src: checks.yml.j2
+            dest: "{{ datadog_agent_checks_config_dir }}/{{ item }}.yaml"
+            owner: "{{ datadog_user }}"
+            group: "{{ datadog_group }}"
+          with_items: "{{ datadog_checks | list }}"
+
+        - name: "Display DataDog checks configurations"
+          debug:
+            msg: "{{ lookup('file',item).split('\n') }}"
+            verbosity: 2
+          with_fileglob:
+            - "{{ datadog_agent_checks_config_dir }}/*.yaml"
+
+      when: (datadog_check_version | default(installed_dd_agent_version)) is version('1:6', 'lt')
+
+    - block: # when datadog-agent version > 6
+
+        - name: "Create {{ item }} DataDog v6+ check configuration file"
+          template:
+            src: checks.yml.j2
+            dest: "{{ datadog_config_path }}/conf.d/{{ item }}.d/{{ item }}.yaml"
+            owner: "{{ datadog_user }}"
+            group: "{{ datadog_group }}"
+          with_items: "{{ datadog_checks | list }}"
+
+        - name: "Display DataDog checks configurations"
+          shell: ls -1 {{ datadog_config_path }}/conf.d/*.d/*.yaml
+
+      when: (datadog_check_version | default(installed_dd_agent_version)) is version('1:6', 'ge')
+
+  become: true
