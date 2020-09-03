@@ -1,14 +1,7 @@
 ---
 - hosts: all
-  become: True
-  vars:
-    datadog_check_version: "1:7.21.1-1"
   roles:
     - name: ansible-datadog-checks
-      datadog_agent_legacy_checks_config_dir: "{{ lookup('env','TRAVIS_BUILD_DIR') }}"
-      datadog_config_path: "{{ lookup('env','TRAVIS_BUILD_DIR') }}"
-      datadog_user: "{{ lookup('env','USER') }}"
-      datadog_group: root
       datadog_checks:
         jmx:
           init_config: null
